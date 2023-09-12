@@ -1,4 +1,19 @@
 void main() {
+  // Map structure,
+  // starting the curly brases symble was { and ending also same }
+  // here we have key and value format and we need to specify those with quotes.
+
+  Map students = {
+    // key and value
+    "name": "Ramu",
+    "age": 29
+  };
+  List<Map> students_data = [
+    {
+      "name": "Ramu",
+    },
+  ];
+
   print('the below number was bigger ${compareFuntion(5, 6)}');
 }
 
