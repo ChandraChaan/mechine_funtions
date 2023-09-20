@@ -1,27 +1,70 @@
-void main() {
-  // Map structure,
-  // starting the curly brases symble was { and ending also same }
-  // here we have key and value format and we need to specify those with quotes.
+int calculateDurationInMonths(DateTime startDate) {
+  DateTime currentDate = DateTime.now();
+  //
+  int months = (currentDate.year - startDate.year) * 12 +
+      currentDate.month -
+      startDate.month;
 
-  Map students = {
-    // key and value
-    "name": "Ramu",
-    "age": 29
-  };
-  List<Map> students_data = [
-    {
-      "name": "Ramu",
-    },
-  ];
+  if (currentDate.day < startDate.day) {
+    months--;
+  }
 
-  print('the below number was bigger ${compareFuntion(5, 6)}');
+  return months;
 }
 
-// we can send 2 digits, it will show smaller one and bigger one.
-int compareFuntion(int a, int b) {
-  if (a < b) {
-    return b;
+int calculateDurationInDays(DateTime startDate) {
+  DateTime currentDate = DateTime.now();
+  DateTime aMonthLater = startDate.add(Duration(days: 30));
+
+  if (currentDate.isBefore(aMonthLater)) {
+    return currentDate.difference(startDate).inDays;
   } else {
-    return a;
+    return currentDate.day - startDate.day;
   }
+}
+
+double calculateInterest(
+    double principal, double interestRatePer100, int months, int days) {
+  double monthlyInterestRate = interestRatePer100 / 100;
+  double dailyInterestRate = monthlyInterestRate / 30;
+
+  double totalMonthlyInterest = monthlyInterestRate * principal * months;
+  double totalDailyInterest = dailyInterestRate * principal * days;
+
+  return totalMonthlyInterest + totalDailyInterest;
+}
+
+void main() {
+  // type name value
+  String inputDateStr = "10/07/2022";
+  DateTime startDate = DateTime.parse(
+      '${inputDateStr.split('/')[2]}-${inputDateStr.split('/')[1]}-${inputDateStr.split('/')[0]}');
+  double principalAmount = 250;
+  double interestRatePer100 = 2;
+// months laga convert chese function
+  int monthsSinceStart = calculateDurationInMonths(startDate);
+  print("Months since start date: $monthsSinceStart months");
+
+  // days wise interest
+  int daysSinceStart = calculateDurationInDays(startDate);
+  print("Days since last month of start date: $daysSinceStart days");
+
+
+  double totalInterest = calculateInterest(principalAmount, interestRatePer100, monthsSinceStart, daysSinceStart);
+
+  double monthlyInterestRate = interestRatePer100 / 100;
+  double dailyInterestRate = monthlyInterestRate / 30;
+
+  double totalMonthlyInterest =
+      monthlyInterestRate * principalAmount * monthsSinceStart;
+  double totalDailyInterest =
+      dailyInterestRate * principalAmount * daysSinceStart;
+
+  print(
+      "Interest for $monthsSinceStart months: ₹${totalMonthlyInterest.toStringAsFixed(2)}");
+  print(
+      "Interest for $daysSinceStart days: ₹${totalDailyInterest.toStringAsFixed(2)}");
+  print("Total interest amount: ₹${totalInterest.toStringAsFixed(2)}");
+  print(
+      "The complete total amount: ₹${principalAmount + double.parse(totalInterest.toStringAsFixed(2))}");
 }
